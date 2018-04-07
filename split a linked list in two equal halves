@@ -1,0 +1,79 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+int main()
+{
+    struct node *head;
+    head= NULL;
+    int n=1, ch=0;
+    while(n)
+    {
+        int data;
+        printf("enter the data");
+        scanf("%d",&data);
+        create(&head,head,data);
+        ch++;
+
+        printf("enter 0 to exit 1 to cont");
+        scanf("%d",&n);
+    }
+    printf("list created ! \n");
+    printing(head);
+    printf("\n");
+    split(ch,head);
+}
+void create(struct node **loc, struct node *head,int data)
+{
+    struct node *ptr,*temp;
+    temp= head;
+    ptr=(struct node*)malloc(sizeof(struct node));
+    ptr->next = NULL;
+    ptr->data= data;
+    if(*loc == NULL)
+    {
+        *loc = ptr;
+        return;
+    }
+    while(temp->next != NULL)
+    {
+        temp= temp->next;
+    }
+    temp->next= ptr;
+}
+
+void printing(struct node *head)
+{
+    struct node *temp;
+    temp= head;
+    while(temp != NULL)
+    {
+        printf("%d",temp->data);
+        temp=temp->next;
+    }
+}
+
+void split(int ch, struct node *head)
+{
+    int i=1;
+    struct node *ptr2,*ptr1;
+    ptr2= head;
+    //ptr1= head;
+    printf("your first list is \n");
+    for(i=1;i<=ch/2;i++)
+    {
+        printf("%d \n",ptr2->data);
+        ptr2= ptr2->next;
+    }
+    printf("your second list is \n");
+    while(ptr2 != NULL)
+    {
+        printf("%d \n",ptr2->data);
+        ptr2=ptr2->next;
+    }
+}
