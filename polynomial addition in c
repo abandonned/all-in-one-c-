@@ -1,0 +1,137 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int coeff;
+    int exp;
+    struct node *next;
+};
+
+int main()
+{
+    struct node *poly1,*poly2;
+    poly1= NULL;
+    poly2= NULL;
+
+    int n1, n2,i=0;
+    printf("enter the number of terms in polynomial 1");
+    scanf("%d",&n1);
+    for(i=0;i<n1;i++)
+    {
+        create(&poly1,poly1);
+    }
+    printf("enter the number of terms in polynomial 2");
+    scanf("%d",&n2);
+    for(i=0;i<n2;i++)
+    {
+        create(&poly2,poly2);
+    }
+    printf("polynomial 1 is \n");
+    printing(poly1);
+    printf("polynomial 2 is \n");
+    printing(poly2);
+    add(poly1,poly2);
+
+
+}
+
+void create(struct node **loc, struct node *head)
+{
+    struct node *ptr,*temp;
+    temp= head;
+    ptr=(struct node*)malloc(sizeof(struct node));
+    ptr->next= NULL;
+    printf("enter the coeff");
+    scanf("%d",&(ptr->coeff));
+    printf("enter the exponent");
+    scanf("%d",&(ptr->exp));
+    if(*loc == NULL)
+    {
+        *loc= ptr;
+        return;
+    }
+    while(temp->next != NULL)
+    {
+        temp= temp->next;
+    }
+    temp->next= ptr;
+}
+
+void printing(struct node *poly)
+{
+    struct node *temp;
+    temp= poly;
+    while(temp != NULL)
+    {
+        printf("%dx^%d",temp->coeff,temp->exp);
+        temp= temp->next;
+        if(temp != NULL)
+        printf("+");
+        else
+            printf("\n");
+    }
+
+}
+
+void add(struct node *poly1, struct node *poly2)
+{
+    struct node *sum;
+    sum= NULL;
+
+    while(poly1 != NULL && poly2 != NULL)
+    {
+
+         if(poly1->exp >poly2->exp)
+        {
+            insert(&sum,sum,poly1->coeff,poly1->exp);
+            poly1= poly1->next;
+        }
+        else if(poly1->exp <poly2->exp)
+        {
+            insert(&sum,sum,poly2->coeff,poly2->exp);
+            poly2= poly2->next;
+        }
+        else if(poly1->exp == poly2->exp)
+        {
+            insert(&sum,sum,poly1->coeff+poly2->coeff,poly1->exp);
+            poly1= poly1->next;
+            poly2= poly2->next;
+        }
+    }
+
+
+    while(poly1 != NULL)
+    {
+        insert(&sum,sum,poly1->coeff,poly1->exp);
+        poly1= poly1->next;
+    }
+    while(poly2 != NULL)
+    {
+        insert(&sum,sum,poly2->coeff,poly2->exp);
+        poly2= poly2->next;
+    }
+printf("the sum of polynomial is \n");
+printing(sum);
+}
+
+
+void insert(struct node **sum, struct node *poly, int coeff, int exp)
+{
+     struct node *ptr,*temp;
+    temp= poly;
+    ptr=(struct node*)malloc(sizeof(struct node));
+    ptr->coeff= coeff;
+    ptr->exp= exp;
+    ptr->next= NULL;
+    if(*sum == NULL)
+    {
+        *sum= ptr;
+        return;
+    }
+    while(temp->next != NULL)
+    {
+        temp= temp->next;
+    }
+    temp->next= ptr;
+}
