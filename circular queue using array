@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+int main()
+{
+    int a[10];
+    int n=1,ch;
+    int front=-1, rear=-1;
+    while(n)
+    {
+        printf("enter 1 to enqueue \n 2 to dequeue \n 3 to print \n ");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:enqueue(a,&front,&rear,10);
+            break;
+            case 2:dequeue(a,&front,&rear, 10);
+            break;
+            case 3:printing(a,&front,&rear);
+            break;
+            default:printf(" \n wrong choice \n");
+
+        }
+        printf("enter 0 to exit and 1 to continue \n");
+        scanf("%d",&n);
+    }
+}
+
+void enqueue(int *a,int *front,int *rear,int n)
+{
+    int data;
+    printf("enter the data you want to enqueue");
+    scanf("%d",&data);
+    if((*rear+1)%n == *front)
+        {return;}
+    else if(*front== -1 && *rear == -1)
+    {
+
+        *front = 0;
+        *rear=0;
+    }
+    else
+        {
+            *rear= (*rear+1)%n;
+        }
+    a[*rear]= data;
+}
+
+void printing(int *a,int *front ,int *rear)
+{
+    int i=0;
+    for(i=*front;i<=*rear;i++)
+    {
+        printf("%d \n",a[i]);
+    }
+}
+
+void dequeue(int *a,int *front, int *rear, int n)
+{
+    if(*front == -1 && *rear == -1)
+        return;
+    else if(*rear == *front)
+    {
+        *front = -1;
+        *rear= -1;
+    }
+    else{
+        *front =(*front +1)%n ;}
+}
